@@ -1,0 +1,43 @@
+// AlbumController.php
+namespace App\Http\Controllers;
+
+use App\Models\Album;
+use App\Models\Picture;
+use Illuminate\Http\Request;
+
+class AlbumController extends Controller
+{
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+        ]);
+
+        $album = Album::create($validatedData);
+
+        return response()->json($album, 201);
+    }
+
+    public function update(Request $request, Album $album)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+        ]);
+
+        $album->update($validatedData);
+
+        return response()->json($album, 200);
+    }
+
+    public function destroy(Album $album)
+    {
+        if ($album->pictures()->count() > 0) {
+            // Handle the logic for deletion choices here
+            // For example, delete all pictures or move them to another album
+        } else {
+            $album->delete();
+        }
+
+        return response()->json(null, 204);
+    }
+}

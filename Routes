@@ -1,0 +1,4 @@
+// web.php
+use App\Http\Controllers\AlbumController;
+
+Route::resource('albums', AlbumController::class);

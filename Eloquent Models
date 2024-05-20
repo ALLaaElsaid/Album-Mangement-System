@@ -1,0 +1,29 @@
+// Album model
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Album extends Model
+{
+    protected $fillable = ['name'];
+
+    public function pictures()
+    {
+        return $this->hasMany(Picture::class);
+    }
+}
+
+// Picture model
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Picture extends Model
+{
+    protected $fillable = ['album_id', 'name'];
+
+    public function album()
+    {
+        return $this->belongsTo(Album::class);
+    }
+}

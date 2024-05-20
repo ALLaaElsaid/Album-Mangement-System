@@ -1,0 +1,14 @@
+// Create albums table
+Schema::create('albums', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->timestamps();
+});
+
+// Create pictures table
+Schema::create('pictures', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('album_id')->constrained()->onDelete('cascade');
+    $table->string('name');
+    $table->timestamps();
+});

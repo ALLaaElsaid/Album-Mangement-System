@@ -1,0 +1,33 @@
+public function destroy(Album $album)
+{
+    // Check if the album is not empty
+    if ($album->pictures->isNotEmpty()) {
+        // Prompt the user for their choice
+        // This can be done through a confirmation dialog on the frontend
+        // For example, using a modal with options to 'Delete All' or 'Move Pictures'
+
+        // If the user chooses to delete all pictures
+        if ($userChoice == 'delete') {
+            // Delete all pictures in the album
+            foreach ($album->pictures as $picture) {
+                // Assuming you have set up media deletion logic in your Picture model
+                $picture->deleteMedia();
+                $picture->delete(); // Delete the picture record
+            }
+        } elseif ($userChoice == 'move') {
+            // If the user chooses to move pictures to another album
+            $targetAlbumId = request('target_album_id'); // Get the target album ID from the request
+            foreach ($album->pictures as $picture) {
+                // Move each picture to the target album
+                $picture->album_id = $targetAlbumId;
+                $picture->save();
+            }
+        }
+    }
+
+    // Delete the album after handling pictures
+    $album->delete();
+
+    // Redirect or return a response
+    return redirect()->route('albums.index')->with('success', 'Album deleted successfully.');
+}
